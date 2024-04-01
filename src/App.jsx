@@ -1,9 +1,7 @@
-import React from "react";
-import { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import { login, logout } from "./store/authSlice";
 import authService from "./appwrite/auth";
-import { useEffect } from "react";
 import {Header, Footer} from "./components";
 import {Outlet} from "react-router-dom";
 
@@ -25,13 +23,15 @@ const App = () => {
       .finally(() => setLoading(false));
   }, []);
   return loading ? ("loading..." ): 
-    <div className="min-h-screen flex flex-wrap content-between bg-slate-200">
+    <div className="min-h-screen flex flex-wrap content-between bg-slate-300">
+        <div className="w-full block">
         <Header/>
         <main>
           {/* <Outlet/> */}
           outlet
         </main>
         <Footer/>
+        </div>
     </div>
 };
 export default App;
