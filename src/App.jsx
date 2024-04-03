@@ -27,8 +27,8 @@ const App = () => {
         <div className="w-full block">
         <Header/>
         <main>
-          {/* <Outlet/> */}
-          outlet
+          <Outlet/>
+          
         </main>
         <Footer/>
         </div>
