@@ -11,12 +11,12 @@ const Header = () => {
     {
       name: 'Home',
       slug: '/',
-      acitve: true
+      active: true
     },
     {
       name: 'Login',
       slug: '/login',
-      ative: !authStatus
+      active: !authStatus
     },
     {
       name: 'Signup',
@@ -31,7 +31,7 @@ const Header = () => {
     {
       name: 'Add Post',
       slug: '/add-post',
-      acitve: authStatus
+      active: authStatus
     }
   ]
 

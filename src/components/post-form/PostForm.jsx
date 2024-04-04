@@ -5,7 +5,7 @@ import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function PostForm() {
+export default function PostForm({post}) {
   const navigate = useNavigate();
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
@@ -17,12 +17,12 @@ export default function PostForm() {
       },
     });
 
-  const userData = useSelector((state) => state.user.userData);
+  const userData = useSelector((state) => state.auth.userData);
 
   const submit = async (data) => {
     if (post) {
       const file = data.image[0]
-        ? appwriteService.UploadFile(data.image[0])
+        ? await appwriteService.UploadFile(data.image[0])
         : null;
       if (file) {
         appwriteService.DeleteFile(post.featuredImage);
@@ -54,13 +54,13 @@ export default function PostForm() {
     }
   };
 
-  const slugTransform = useCallback((data) => {
+  const slugTransform = useCallback((value) => {
     if (value && typeof value === "string")
       return value
         .trim()
         .toLowerCase()
-        .replace(/^[a-zA-Z\d\s]+/g, "-")
-        .replace(/\s/g, "-");
+        .replace(/[^\w ]+/g, "")
+        .replace(/ +/g, "-");
     return "";
   }, []);
 
@@ -112,7 +112,7 @@ export default function PostForm() {
         {post && (
           <div className="w-full mb-4">
             <img
-              src={appwriteService.getFilePreview(post.featuredImage)}
+              src={appwriteService.GetFilePreview(post.featuredImage)}
               alt={post.title}
               className="rounded-lg"
             />
