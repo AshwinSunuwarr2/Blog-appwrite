@@ -10,8 +10,10 @@ function EditPost() {
     useEffect(() => {
         if(slug){
             appwriteService.GetPost(slug).then((post)=>{
+                console.log("--------posts----", post)
                 if(post){
                     setPosts(post)
+                    console.log("--------posts----", post)
                 }
             })
         } else{
@@ -20,7 +22,7 @@ function EditPost() {
     },[slug, navigate])
   return post ? <div className='py-8'>
     <Container>
-        <PostForm {...post} />
+        <PostForm {...post}/>
     </Container>
   </div>: null
 }

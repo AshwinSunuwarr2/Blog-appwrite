@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function PostForm({post}) {
+  console.log("~~~~~~~", post)
   const navigate = useNavigate();
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
