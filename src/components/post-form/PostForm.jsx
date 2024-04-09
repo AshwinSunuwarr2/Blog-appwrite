@@ -112,6 +112,7 @@ export default function PostForm({post}) {
         />
         {post && (
           <div className="w-full mb-4">
+            {console.log("post.featuredImage ===", post.featuredImage)}
             <img
               src={appwriteService.GetFilePreview(post.featuredImage)}
               alt={post.title}
