@@ -7,6 +7,7 @@ import { Button, Input, Logo } from "./index";
 import { useForm } from "react-hook-form";
 
 function Signup() {
+  const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ function Signup() {
 
   const create = async (data) => {
     setError("");
+    setLoader(true)
     try {
       const userData = await authService.createAccount(data);
 
@@ -21,15 +23,17 @@ function Signup() {
         const userData = await authService.getCurrentUser();
         if (userData) dispatch(login(userData));
         navigate("/");
+        setLoader(false)
       }
     } catch (error) {
       setError(error.message);
+      setLoader(false)
     }
   };
   return (
     <div className="flex items-center justify-center">
       <div
-        className={`mx-auto w-full max-w-lg bg-slate-100 rounded-xl p-10 border border-black/10`}
+        className={`mx-auto w-full max-w-lg bg-slate-500/80 rounded-xl p-10 border border-black/10`}
       >
         <div className="mb-2 flex justify-center">
           <span className="inline-block w-full max-w-[100px]">
@@ -78,7 +82,7 @@ function Signup() {
               {...register("password", { required: true })}
             />
             <Button type="submit" className="w-full">
-              Sign up
+              {loader ? "Loading..." : "Sign up"}
             </Button>
           </div>
         </form>

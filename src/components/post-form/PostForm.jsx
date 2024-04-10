@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, Select, RTE } from "../index";
 import appwriteService from "../../appwrite/config";
@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 export default function PostForm({post}) {
   console.log("~~~~~~~", post)
+  const [loader, setLoader] =  useState(false);
   const navigate = useNavigate();
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
@@ -21,6 +22,7 @@ export default function PostForm({post}) {
   const userData = useSelector((state) => state.auth.userData);
 
   const submit = async (data) => {
+    setLoader(true);
     if (post) {
       const file = data.image[0]
         ? await appwriteService.UploadFile(data.image[0])
@@ -36,6 +38,7 @@ export default function PostForm({post}) {
       if (dbPost) {
         // navigate('/post/'+dbPost.$id)
         navigate(`/post/${dbPost.$id}`);
+        setLoader(false);
       }
     } else {
       const file = await appwriteService.UploadFile(data.image[0]);
@@ -50,6 +53,7 @@ export default function PostForm({post}) {
         if (dbPost) {
           // navigate('/post/'+dbPost.$id)
           navigate(`/post/${dbPost.$id}`);
+          setLoader(false);
         }
       }
     }
@@ -131,7 +135,7 @@ export default function PostForm({post}) {
           bgColor={post ? "bg-green-500" : undefined}
           className="w-full"
         >
-          {post ? "Update" : "Submit"}
+          {loader ? "Loading..." : post ? "Update" : "Submit"}
         </Button>
       </div>
     </form>
