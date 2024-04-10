@@ -3,7 +3,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
 import { Button, Container } from "../components";
 import parse from "html-react-parser";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteOnePost } from "../store/postSlice";
 
 export default function Post() {
     const [post, setPost] = useState(null);
@@ -11,6 +12,7 @@ export default function Post() {
     const navigate = useNavigate();
 
     const userData = useSelector((state) => state.auth.userData);
+    const dispatch = useDispatch()
 
     const isAuthor = post && userData ? post.userId === userData.$id : false;
 
@@ -28,6 +30,7 @@ export default function Post() {
             if (status) {
                 appwriteService.DeleteFile(post.featuredImage);
                 navigate("/");
+                dispatch(deleteOnePost(post.$id))
             }
         });
     };
